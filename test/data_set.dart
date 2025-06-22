@@ -1,0 +1,283 @@
+import 'package:celestial_position_solver/celestial_position_solver.dart';
+
+import 'package:vector_math/vector_math.dart';
+
+List<ShipInformation> dr = [
+  // ShipInformation(
+  //     lat: radians(-20),
+  //     long: radians(-120),
+  //     speed: 0,
+  //     course: radians(0),
+  //     time: 15.31722222222),
+  // ShipInformation(
+  //     lat: radians(35),
+  //     long: radians(-65),
+  //     speed: 0,
+  //     course: radians(0),
+  //     time: 12.21666666666666666667),
+  ShipInformation(
+      lat: radians(25),
+      long: radians(-157.1666666667),
+      speed: 0,
+      course: radians(0),
+      time: 20.190555556),
+  ShipInformation(
+      lat: radians(38.5),
+      long: radians(-73.7166666667),
+      speed: 6,
+      course: radians(49),
+      time: 13.02416666667),
+  ShipInformation(
+      lat: radians(20.29),
+      long: radians(-50.1233333333),
+      speed: 18,
+      course: radians(127),
+      time: 12.4),
+  ShipInformation(
+      lat: radians(45.16667),
+      long: radians(-30.25),
+      course: radians(180),
+      speed: 20,
+      time: 6.266666666666667),
+  ShipInformation(
+      lat: radians(-20.916666666),
+      long: radians(86.75),
+      speed: 18,
+      course: radians(300),
+      time: 12.416666667),
+  ShipInformation(
+      lat: radians(-35.0),
+      long: radians(5.0),
+      speed: 18,
+      course: radians(220),
+      time: 18.2),
+  ShipInformation(
+      lat: radians(27.75),
+      long: radians(150.3),
+      speed: 30,
+      course: radians(290),
+      time: 6.22361111),
+  ShipInformation(
+      lat: radians(40), long: radians(-55), speed: 0, course: 0, time: 0),
+  ShipInformation(
+      lat: radians(41 + 34.8 / 60),
+      long: radians(-17 - 0.5 / 60),
+      speed: 0,
+      course: 0,
+      time: 0),
+  ShipInformation(
+      lat: radians(77 + 43 / 60),
+      long: radians(-10 - 12 / 60),
+      speed: 0,
+      course: 0,
+      time: 5.80472222222)
+];
+List<List<StarInformation>> star = [
+  // [
+  //   StarInformation(
+  //       dec: radians(0.49833333333333333),
+  //       gha: radians(47.7533333333333333),
+  //       ho: radians(14.25166666666666666),
+  //       time: 15.3005555555555556),
+  //   StarInformation(
+  //       dec: radians(0.4983333333333333),
+  //       gha: radians(48.0033333333333333),
+  //       ho: radians(14.475),
+  //       time: 15.31722222222),
+  //   // StarInformation(
+  //   //     dec: radians(0.496666666666),
+  //   //     gha: radians(46.25333333333333333),
+  //   //     ho: radians(12.90333333333333333),
+  //   //     time: 15.333888888888889)
+  // ],
+  // [
+  //   StarInformation(
+  //       dec: radians(16 + 3.6 / 60),
+  //       gha: radians(359 + 38.9 / 60),
+  //       ho: radians(15 + 51.9 / 60),
+  //       time: 12.2083333333333),
+  //   StarInformation(
+  //       dec: radians(16 + 3.6 / 60),
+  //       gha: radians(359 + 46.4 / 60),
+  //       ho: radians(15 + 57.5 / 60),
+  //       time: 12.216666666666666666666666666667)
+  // ],
+  [
+    StarInformation(
+        dec: radians(74.1766666667),
+        gha: radians(103.716666667),
+        ho: radians(47.22666666667),
+        time: 20.12861111),
+    StarInformation(
+        dec: radians(-11.14),
+        gha: radians(126.095),
+        ho: radians(32.478333333),
+        time: 20.190555556)
+  ],
+  [
+    StarInformation(
+        dec: radians(22.361666667),
+        gha: radians(46.973333333),
+        ho: radians(62.125),
+        time: 10.1),
+    StarInformation(
+        dec: radians(22.37666666667),
+        gha: radians(90.83166666666),
+        ho: radians(68.3283333333),
+        time: 13.02416667)
+  ], //3
+  [
+    StarInformation(
+        dec: radians(21.885),
+        gha: radians(49.426666666),
+        ho: radians(88.15333333),
+        time: 12.2541666667),
+    StarInformation(
+        dec: radians(21.885),
+        gha: radians(51.6683333333),
+        ho: radians(87.713333333),
+        time: 12.40361111)
+  ], //4
+  [
+    StarInformation(
+        dec: radians(45.181666666667),
+        gha: radians(327.191666666667),
+        ho: radians(46.59333333333),
+        time: 6.151111111111111),
+    StarInformation(
+        dec: radians(-26.375),
+        gha: radians(31.12666666667),
+        ho: radians(18.7816666666667),
+        time: 6.201388888889),
+    StarInformation(
+        dec: radians(38.7533333333),
+        gha: radians(360.0566666666),
+        ho: radians(66.811666666),
+        time: 6.267222222)
+  ], //5
+  [
+    StarInformation(
+        dec: radians(-20.098333333),
+        gha: radians(272.2516666666),
+        ho: radians(88.7016666666),
+        time: 12.33388889),
+    StarInformation(
+        dec: radians(-20.0966666666),
+        gha: radians(273.251666666666),
+        ho: radians(89.0983333333),
+        time: 12.40055556),
+    StarInformation(
+        dec: radians(-20.096666666666),
+        gha: radians(274.25),
+        ho: radians(88.698333333),
+        time: 12.46722222)
+  ], //6
+  [
+    StarInformation(
+        dec: radians(8.856666666),
+        gha: radians(325.11),
+        ho: radians(37.883333333),
+        time: 18.00),
+    StarInformation(
+        dec: radians(-29.6516666666666),
+        gha: radians(279.40333333),
+        ho: radians(27.9),
+        time: 18.06666667),
+    StarInformation(
+        dec: radians(-57.26333333),
+        gha: radians(240.3616666666),
+        ho: radians(17.775),
+        time: 18.133333),
+    StarInformation(
+        dec: radians(12.56833333),
+        gha: radians(2.08),
+        ho: radians(41.5916666666),
+        time: 18.2)
+  ], //7
+  [
+    StarInformation(
+        dec: radians(27.987416666),
+        gha: radians(273.35575),
+        ho: radians(34.416666666666666666666),
+        time: 6.075),
+    StarInformation(
+        dec: radians(5.1863),
+        gha: radians(275.48575),
+        ho: radians(23.816666666666666666666),
+        time: 6.11444444444444),
+    StarInformation(
+        dec: radians(46.044883333),
+        gha: radians(311.12125),
+        ho: radians(12.33333333333333333333333),
+        time: 6.12361111111111),
+    StarInformation(
+        // StarInformation(
+        dec: radians(11.88786666666666),
+        gha: radians(238.7365),
+        ho: radians(58.5333333333333333333333),
+        time: 6.1475),
+    StarInformation(
+        dec: radians(-11.235),
+        gha: radians(189.9885),
+        ho: radians(46.6666666666666666666666),
+        time: 6.17694444444444),
+    StarInformation(
+        dec: radians(19.0983),
+        gha: radians(177.65225),
+        ho: radians(59.6666666666666666666666),
+        time: 6.1933333333),
+    StarInformation(
+        dec: radians(38.83566666666666),
+        gha: radians(112.9145),
+        ho: radians(14.0),
+        time: 6.22361111111),
+  ], //8
+
+  [
+    StarInformation(
+        dec: radians(-23 - 43.9 / 60),
+        gha: radians(358 + 52.9 / 60),
+        ho: radians(1 + 1.7 / 60),
+        time: 0),
+    StarInformation(
+        dec: radians(-8 - 45.3 / 60),
+        gha: radians(135 + 21.6 / 60),
+        ho: radians(4 + 9 / 60),
+        time: 0),
+    StarInformation(
+        dec: radians(-36 - 28.5 / 60),
+        gha: radians(65 + 32.3 / 60),
+        ho: radians(7 + 43.0 / 60),
+        time: 0)
+  ],
+
+  [
+    StarInformation(
+        dec: radians(49 + 25.7 / 60),
+        gha: radians(3 + 14.2 / 60),
+        ho: radians(77 + 34.9 / 60),
+        time: 20.0488888888888888889),
+    StarInformation(
+        dec: radians(45 + 58.4 / 60),
+        gha: radians(131 + 24.8 / 60),
+        ho: radians(15 + 19.3 / 60),
+        time: 20.066111111111)
+  ], //Dutton 8
+  [
+    StarInformation(
+        dec: radians(12 + 7.4 / 60),
+        gha: radians(286 + 26.4 / 60),
+        ho: radians(13 + 10.1 / 60),
+        time: 5.80472222222),
+    StarInformation(
+        dec: radians(38 + 45.4 / 60),
+        gha: radians(159 + 8.7 / 60),
+        ho: radians(28 + 0.3 / 60),
+        time: 5.80472222222),
+    StarInformation(
+        dec: radians(23 + 19 / 60),
+        gha: radians(46 + 45.5 / 60),
+        ho: radians(32 + 56.1 / 60),
+        time: 5.80472222222)
+  ] //pub229
+];

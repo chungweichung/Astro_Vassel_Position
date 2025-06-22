@@ -1,0 +1,18 @@
+name: celestial_position_solver
+description: A starting point for Dart libraries or applications.
+version: 1.0.0
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: ">=2.12.0 <4.0.0"
+
+# Add regular dependencies here.
+dependencies:
+  vector_math: ^2.1.4
+  navigation:
+      git:
+        url: https://github.com/chungweichung/navigation-tool.git
+
+dev_dependencies:
+  lints: ^5.0.0
+  test: ^1.24.0
