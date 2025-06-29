@@ -9,5 +9,6 @@ export 'src/normal_gradient_descent.dart';
 export 'src/position_object/position_information.dart';
 export 'src/position_object/ship_information.dart';
 export 'src/position_object/star_information.dart';
-
+export 'src/dbscan.dart';
+export 'src/outlier_detect.dart';
 // TODO: Export any libraries intended for clients of this package.
