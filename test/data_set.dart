@@ -70,7 +70,16 @@ List<ShipInformation> dr = [
       long: radians(-10 - 12 / 60),
       speed: 0,
       course: 0,
-      time: 5.80472222222)
+      time: 5.80472222222),
+  ShipInformation(
+      lat: radians(30), long: radians(-60), speed: 0, course: 0, time: 23.25),
+
+  ShipInformation(
+      lat: radians(42 + 40 / 60),
+      long: radians(-135 - 25 / 60),
+      speed: 20,
+      course: radians(150),
+      time: 18 + 1 / 60)
 ];
 List<List<StarInformation>> star = [
   // [
@@ -279,5 +288,108 @@ List<List<StarInformation>> star = [
         gha: radians(46 + 45.5 / 60),
         ho: radians(32 + 56.1 / 60),
         time: 5.80472222222)
-  ] //pub229
+  ], //pub229
+
+  [
+    // Deneb
+    // StarInformation(
+    //   dec: radians(45 + 20.5 / 60), // 45°20.5′ N
+    //   gha: radians(19 + 2.9 / 60), // 019°02.9′
+    //   ho: radians(54 + 37.5 / 60), // 54°37.5′
+    //   time: 23.25, // 23:15 → 23 + 15/60
+    // ),
+    // Altair
+    StarInformation(
+      dec: radians(8 + 54.9 / 60), // 08°54.9′ N
+      gha: radians(31 + 39.4 / 60), // 031°39.4′
+      ho: radians(56 + 8.9 / 60), // 56°08.9′
+      time: 23.25,
+    ),
+    // Nunki
+    StarInformation(
+      dec: radians(-(26 + 16.4 / 60)), // 26°16.4′ S
+      gha: radians(45 + 29.1 / 60), // 045°29.1′
+      ho: radians(32 + 2.1 / 60), // 32°02.1′
+      time: 23.25,
+    ),
+    // Antares
+    StarInformation(
+      dec: radians(-(26 + 27.8 / 60)), // 26°27.8′ S
+      gha: radians(81 + 57.2 / 60), // 081°57.2′
+      ho: radians(29 + 45.1 / 60), // 29°45.1′
+      time: 23.25,
+    ),
+    // Arcturus
+    StarInformation(
+      dec: radians(19 + 6.4 / 60), // 19°06.4′ N
+      gha: radians(115 + 27.4 / 60), // 115°27.4′
+      ho: radians(38 + 52.7 / 60), // 38°52.7′
+      time: 23.25,
+    ),
+    // Alkaid
+    StarInformation(
+      dec: radians(49 + 14.5 / 60), // 49°14.5′ N
+      gha: radians(122 + 31.0 / 60), // 122°31.0′
+      ho: radians(39 + 46.0 / 60), // 39°46.0′
+      time: 23.25,
+    ),
+    // Kochab
+    // StarInformation(
+    //   dec: radians(74 + 5.9 / 60), // 74°05.9′ N
+    //   gha: radians(106 + 53.6 / 60), // 106°53.6′
+    //   ho: radians(40 + 1.0 / 60), // 40°01.0′
+    //   time: 23.25,
+    // ),
+  ],
+  [
+    // Dubhe
+    StarInformation(
+      dec: radians(61 + 38.4 / 60), // 61°38.4′ N
+      gha: radians(49 + 17.4 / 60), // 049°17.4′
+      ho: radians(38 + 20.1 / 60), // 38°20.1′
+      time: 17 + 40.0 / 60 + 22.0 / 3600, // ZT 17-40-22 → 17.6727777778 h
+    ),
+    // Regulus
+    StarInformation(
+      dec: radians(11 + 52.1 / 60), // 11°52.1′ N
+      gha: radians(64 + 8.2 / 60), // 064°08.2′
+      ho: radians(21 + 34.8 / 60), // 21°34.8′
+      time: 17 + 44.0 / 60 + 14.0 / 3600, // ZT 17-44-14 → 17.7372222222 h
+    ),
+    // Procyon
+    StarInformation(
+      dec: radians(5 + 10.3 / 60), // 05°10.3′ N
+      gha: radians(102 + 25.3 / 60), // 102°25.3′
+      ho: radians(42 + 14.7 / 60), // 42°14.7′
+      time: 17 + 48.0 / 60 + 17.0 / 3600, // ZT 17-48-17 → 17.8047222222 h
+    ),
+    // Sirius
+    StarInformation(
+      dec: radians(-(16 + 44.7 / 60)), // 16°44.7′ S
+      gha: radians(116 + 47.9 / 60), // 116°47.9′
+      ho: radians(27 + 56.0 / 60), // 27°56.0′
+      time: 17 + 51.0 / 60 + 28.0 / 3600, // ZT 17-51-28 → 17.8577777778 h
+    ),
+    // Rigel
+    StarInformation(
+      dec: radians(-(8 + 10.9 / 60)), // 08°10.9′ S
+      gha: radians(140 + 10.0 / 60), // 140°10.0′
+      ho: radians(38 + 50.2 / 60), // 38°50.2′
+      time: 17 + 54.0 / 60 + 24.0 / 3600, // ZT 17-54-24 → 17.9066666667 h
+    ),
+    // Hamal
+    StarInformation(
+      dec: radians(23 + 33.4 / 60), // 23°33.4′ N
+      gha: radians(187 + 53.8 / 60), // 187°53.8′
+      ho: radians(42 + 59.4 / 60), // 42°59.4′
+      time: 17 + 58.0 / 60 + 6.0 / 3600, // ZT 17-58-06 → 17.9683333333 h
+    ),
+    // Schedar
+    StarInformation(
+      dec: radians(56 + 39.0 / 60), // 56°39.0′ N
+      gha: radians(210 + 25.3 / 60), // 210°25.3′
+      ho: radians(42 + 17.0 / 60), // 42°17.0′
+      time: 18 + 1.0 / 60 + 32.0 / 3600, // ZT 18-01-32 → 18.0255555556 h
+    ),
+  ]
 ];

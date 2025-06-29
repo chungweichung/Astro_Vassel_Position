@@ -194,42 +194,42 @@ void main() {
   //     2,
   //     GDType.GD);
 
-  GradientDescent gd = GradientDescent(
-      initPosition: dr[9],
-      star: star[9],
-      batchSize: star[9].length,
-      learningRate: 0.01,
-      needRFix: true);
-  Position ans = gd.gradientDescent();
-  List<StarInformation> starOffset =
-      gd.runningFix(initPosition: dr[9], star: star[9], time: dr[9].time);
-  print(lossFunction(ans, starOffset));
+  // GradientDescent gd = GradientDescent(
+  //     initPosition: dr[10],
+  //     star: star[10],
+  //     batchSize: star[10].length,
+  //     learningRate: 0.01,
+  //     needRFix: true);
+  // Position ans = gd.gradientDescent();
+  // List<StarInformation> starOffset =
+  //     gd.runningFix(initPosition: dr[9], star: star[9], time: dr[9].time);
+  // print(lossFunction(ans, starOffset));
 
   // Position psoAns =
   //     Position(radians(44 + 49.46458 / 60), radians(-30 - 15.48982 / 60));
   // print(lossFunction(psoAns, starOffset));
 
-  // print('start');
-  // GradientDescent gd = GradientDescent(
-  //     initPosition: dr.last,
-  //     star: star.last,
-  //     batchSize: star.last.length,
-  //     learningRate: 0.01,
-  //     needRFix: true);
-  // Position ansTotal = gd.gradientDescent();
-  // print(
-  //     "lat:${degrees(ansTotal.lat).toInt()}°${degrees(ansTotal.lat).abs() % 1 * 60}'");
-  // print(
-  //     "long:${degrees(ansTotal.long).toInt()}°${degrees(ansTotal.long).abs() % 1 * 60}'");
-  // print('[${ansTotal.long},${ansTotal.lat}]');
+  print('5start');
+  GradientDescent gd = GradientDescent(
+      initPosition: dr.last,
+      star: star.last,
+      batchSize: star.last.length,
+      learningRate: 0.01,
+      needRFix: true);
+  Position ansTotal = gd.gradientDescent();
+  print(
+      "lat:${degrees(ansTotal.lat).toInt()}°${degrees(ansTotal.lat).abs() % 1 * 60}'");
+  print(
+      "long:${degrees(ansTotal.long).toInt()}°${degrees(ansTotal.long).abs() % 1 * 60}'");
+  print('[${ansTotal.long},${ansTotal.lat}]');
 
   // MutiBodiesCeletialFix gdEach = MutiBodiesCeletialFix(
-  //     initPosition: dr[6], star: star[6], learningRate: 0.01, needRFix: true);
+  //     initPosition: dr[11], star: star[11], learningRate: 0.01, needRFix: true);
   // List<Position> ans = gdEach.solveEachPosition();
   // for (int i = 0; i < ans.length; i++) {
   //   stdout.write('[${ans[i].long},${ans[i].lat}],');
   // }
-  // print('end');
+  print('end');
 
   // MutiBodiesCeletialFix multiGd = MutiBodiesCeletialFix(
   //     initPosition: dr[4], star: star[4], learningRate: 0.01, needRFix: true);
