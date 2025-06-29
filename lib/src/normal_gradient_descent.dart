@@ -14,12 +14,13 @@ class GradientDescent {
   List<Position> historyPosition = [];
   List<List<double>> historyGradient = [];
   List gra = [0, 0];
-
+  double threshold;
   GradientDescent({
     required this.initPosition,
     required this.star,
     required this.batchSize,
     this.learningRate = 0.01,
+    this.threshold = 1e-8,
     this.needRFix = false,
     this.runningFixTiem,
   });
@@ -260,7 +261,7 @@ class GradientDescent {
         historyGradient.add([gra[0], gra[1]]);
       }
       gra = gradient(ap, star);
-      if (sqrt(pow(gra[0], 2) + pow(gra[1], 2)) <= 1e-16) {
+      if (sqrt(pow(gra[0], 2) + pow(gra[1], 2)) < threshold) {
         print('gra==0,$currentIteration');
         break;
       }
@@ -311,7 +312,7 @@ class GradientDescent {
         historyGradient.add([gra[0], gra[1]]);
       }
       gra = gradient(ap, star);
-      if (sqrt(pow(gra[0], 2) + pow(gra[1], 2)) <= 1e-8) {
+      if (sqrt(pow(gra[0], 2) + pow(gra[1], 2)) < threshold) {
         print('gra==0,$currentIteration');
         break;
       }
@@ -368,7 +369,7 @@ class GradientDescent {
         historyGradient.add([gra[0], gra[1]]);
       }
       gra = gradient(ap, star);
-      if (sqrt(pow(gra[0], 2) + pow(gra[1], 2)) <= 1e-8) {
+      if (sqrt(pow(gra[0], 2) + pow(gra[1], 2)) < threshold) {
         print('gra==0,$currentIteration');
         break;
       }

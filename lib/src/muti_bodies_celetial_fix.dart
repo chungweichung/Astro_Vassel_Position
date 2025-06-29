@@ -8,10 +8,12 @@ class MutiBodiesCeletialFix {
   double learningRate;
   double? runningFixTiem;
   bool needRFix;
+  double threshold;
   MutiBodiesCeletialFix(
       {required this.initPosition,
       required this.star,
       this.learningRate = 0.01,
+      this.threshold = 1e-8,
       this.needRFix = true,
       this.runningFixTiem});
   List<Position> solveEachPosition() {
@@ -24,6 +26,7 @@ class MutiBodiesCeletialFix {
             star: [star[i].clone(), star[j].clone()],
             batchSize: 2,
             learningRate: learningRate,
+            threshold: threshold,
             runningFixTiem: runningFixTiem,
             needRFix: needRFix);
         ansSet.add(gd.gradientDescent());
