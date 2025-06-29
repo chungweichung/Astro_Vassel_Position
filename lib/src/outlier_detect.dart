@@ -29,10 +29,3 @@ List<int> getStarIndex(int idx, int n) {
 
   return [i + 1, j + 1];
 }
-
-void main() {
-  List<int> rowStart = buildRowStart(6);
-  print(rowStart);
-  List<int> ans = getStarIndex(20, 7);
-  print(ans);
-}
