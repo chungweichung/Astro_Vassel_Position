@@ -19,4 +19,20 @@ class ShipInformation extends Position {
         course: this.course,
         time: this.time);
   }
+
+  Map<String, dynamic> toJson() => {
+        'lat': lat,
+        'long': long,
+        'speed': speed,
+        'course': course,
+        'time': time
+      };
+  factory ShipInformation.fromJson(Map<String, dynamic> json) {
+    return ShipInformation(
+        lat: json['lat'] as double,
+        long: json['long'] as double,
+        speed: json['speed'] as double,
+        course: json['course'] as double,
+        time: json['time'] as double);
+  }
 }

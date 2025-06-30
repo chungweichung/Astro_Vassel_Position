@@ -10,4 +10,14 @@ class StarInformation {
     return StarInformation(
         dec: this.dec, gha: this.gha, ho: this.ho, time: this.time);
   }
+
+  Map<String, dynamic> toJson() =>
+      {'dec': dec, 'gha': gha, 'ho': ho, 'time': time};
+
+  factory StarInformation.fromJson(Map<String, dynamic> json) =>
+      StarInformation(
+          dec: json['dec'],
+          gha: json['gha'],
+          ho: json['ho'],
+          time: json['time']);
 }
