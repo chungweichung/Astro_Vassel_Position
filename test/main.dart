@@ -211,10 +211,11 @@ void main() {
 
   print('5start');
   GradientDescent gd = GradientDescent(
-      initPosition: dr.last,
-      star: star.last,
-      batchSize: star.last.length,
+      initPosition: dr[4],
+      star: star[4],
+      batchSize: star[4].length,
       learningRate: 0.01,
+      threshold: 1e-14,
       needRFix: true);
   Position ansTotal = gd.gradientDescent();
   print(
@@ -222,7 +223,9 @@ void main() {
   print(
       "long:${degrees(ansTotal.long).toInt()}°${degrees(ansTotal.long).abs() % 1 * 60}'");
   print('[${ansTotal.long},${ansTotal.lat}]');
-
+  print(
+      "${-degrees(ansTotal.long).toInt()}°${(degrees(ansTotal.long) % -1 * 60)}'W");
+  print(degrees(ansTotal.long) % -1);
   // MutiBodiesCeletialFix gdEach = MutiBodiesCeletialFix(
   //     initPosition: dr[11], star: star[11], learningRate: 0.01, needRFix: true);
   // List<Position> ans = gdEach.solveEachPosition();
@@ -231,13 +234,17 @@ void main() {
   // }
   print('end');
 
-  // MutiBodiesCeletialFix multiGd = MutiBodiesCeletialFix(
-  //     initPosition: dr[4], star: star[4], learningRate: 0.01, needRFix: true);
-  // List<Position> ans = multiGd.solveEachPosition();
-  // for (int i = 0; i < ans.length; i++) {
-  //   stdout.write('[${ans[i].long},${ans[i].lat}],');
-  // }
-  // print('');
+  MutiBodiesCeletialFix multiGd = MutiBodiesCeletialFix(
+      initPosition: dr[4], star: star[4], learningRate: 0.01, needRFix: true);
+  List<Position> ans = multiGd.solveEachPosition();
+  for (int i = 0; i < ans.length; i++) {
+    stdout.write('[${ans[i].long},${ans[i].lat}],');
+    print(
+        "lat:${degrees(ans[i].lat).toInt()}°${degrees(ans[i].lat).abs() % 1 * 60}'");
+    print(
+        "long:${degrees(ans[i].long).toInt()}°${degrees(ans[i].long).abs() % 1 * 60}'");
+  }
+  print('');
   // GradientDescent gd = GradientDescent(
   //     initPosition: dr[4],
   //     star: star[4],

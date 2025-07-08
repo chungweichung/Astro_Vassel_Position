@@ -20,7 +20,7 @@ class GradientDescent {
     required this.star,
     required this.batchSize,
     this.learningRate = 0.01,
-    this.threshold = 1e-8,
+    this.threshold = 1e-16,
     this.needRFix = false,
     this.runningFixTiem,
   });
@@ -211,60 +211,98 @@ class GradientDescent {
   }
 
   List<List<StarInformation>> creatBatch(
-      List<StarInformation> star, int batchSize) {
-    star.shuffle();
-    List<List<StarInformation>> batch = [];
-    int starIndex = 0;
-    int remainder = star.length % batchSize;
+    List<StarInformation> star,
+    int batchSize,
+  ) {
+    // 用 toList() 也能複製
+    final shuffled = star.toList()..shuffle();
+
+    final batches = <List<StarInformation>>[];
+    int start = 0;
     for (int i = 0; i < star.length ~/ batchSize; i++) {
-      batch.add(star.sublist(starIndex, starIndex + batchSize));
-      starIndex += batchSize;
+      batches.add(shuffled.sublist(start, start + batchSize));
+      start += batchSize;
     }
-    if (remainder > 0) {
-      batch.add(star.sublist(starIndex));
+    if (shuffled.length % batchSize > 0) {
+      batches.add(shuffled.sublist(start));
     }
-    return batch;
+    return batches;
   }
 
+  // Position gradientDescent() {
+  //   ShipInformation ap = initPosition.clone();
+  //   int maxIteration = 10000;
+  //   gra = [0, 0];
+  //   List<List<StarInformation>> batch;
+  //   if (needRFix == true) {
+  //     star = runningFix(
+  //         initPosition: ap,
+  //         star: star,
+  //         time: runningFixTiem ?? initPosition.time);
+  //   }
+  //   currentIteration = 0;
+
+  //   while (currentIteration < maxIteration) {
+  //     batch = creatBatch(star, batchSize);
+  //     for (int j = 0; j < batch.length; j++) {
+  //       gra = gradient(ap, batch[j]);
+  //       ap.lat -= learningRate * gra[0];
+  //       ap.long -= learningRate * gra[1];
+  //       historyPosition.add(ap.clone());
+  //       historyGradient.add([gra[0], gra[1]]);
+  //     }
+  //     gra = gradient(ap, star);
+  //     if (sqrt(pow(gra[0], 2) + pow(gra[1], 2)) < threshold) {
+  //       print('gra==0,$currentIteration');
+  //       break;
+  //     }
+  //     currentIteration++;
+  //   }
+
+  //   return Position(ap.lat, ap.long);
+  // }
   Position gradientDescent() {
     ShipInformation ap = initPosition.clone();
-    int maxIteration = 1000000;
-    gra = [0, 0];
-    List<List<StarInformation>> batch;
-    if (needRFix == true) {
-      star = runningFix(
-          initPosition: ap,
-          star: star,
-          time: runningFixTiem ?? initPosition.time);
-    }
+    int maxIteration = 10000;
+    double threshold = 1e-3; // 你的收斂門檻
+    List<List<StarInformation>> batches;
+    bool converged = false;
     currentIteration = 0;
 
-    while (currentIteration < maxIteration) {
-      batch = creatBatch(star, batchSize);
-      for (int j = 0; j < batch.length; j++) {
-        gra = gradient(ap, batch[j]);
-        ap.lat -= learningRate * gra[0];
-        ap.long -= learningRate * gra[1];
-        // if (ap.lat > 90) {
-        //   ap.lat -= pi;
-        // }
-        // if (ap.lat < -90) {
-        //   ap.lat += pi;
-        // }
-        // if (ap.long > pi) {
-        //   ap.long -= 2 * pi;
-        // }
-        // if (ap.long < -pi) {
-        //   ap.long += 2 * pi;
-        // }
+    // 如果需要先做一次 run-fix
+    if (needRFix) {
+      star = runningFix(
+        initPosition: ap,
+        star: star,
+        time: runningFixTiem ?? initPosition.time,
+      );
+    }
+
+    while (currentIteration < maxIteration && !converged) {
+      // 產生一整組 mini-batch（batchSize 筆一組）
+      batches = creatBatch(star, batchSize);
+
+      // 針對每個 mini-batch 做一次更新
+      for (var batch in batches) {
+        // 計算這個 mini-batch 的梯度
+        var grad = gradient(ap, batch);
+        // 更新參數
+        ap.lat -= learningRate * grad[0];
+        ap.long -= learningRate * grad[1];
+        // 紀錄 history
         historyPosition.add(ap.clone());
-        historyGradient.add([gra[0], gra[1]]);
+        historyGradient.add([grad[0], grad[1]]);
+
+        // 用這個 mini-batch 的梯度範數當終止條件
+        double norm = sqrt(grad[0] * grad[0] + grad[1] * grad[1]);
+        if (norm < threshold) {
+          print('Converged on mini-batch gradient at iter $currentIteration');
+          converged = true;
+          break; // 跳出 batch 迴圈
+        }
       }
-      gra = gradient(ap, star);
-      if (sqrt(pow(gra[0], 2) + pow(gra[1], 2)) < threshold) {
-        print('gra==0,$currentIteration');
-        break;
-      }
+
+      if (converged) break; // 跳出 epoch 迴圈
       currentIteration++;
     }
 

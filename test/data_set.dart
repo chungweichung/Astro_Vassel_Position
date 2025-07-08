@@ -44,7 +44,7 @@ List<ShipInformation> dr = [
       long: radians(86.75),
       speed: 18,
       course: radians(300),
-      time: 12.416666667),
+      time: 12.416666667), //4
   ShipInformation(
       lat: radians(-35.0),
       long: radians(5.0),
@@ -79,7 +79,9 @@ List<ShipInformation> dr = [
       long: radians(-135 - 25 / 60),
       speed: 20,
       course: radians(150),
-      time: 18 + 1 / 60)
+      time: 18 + 1 / 60),
+  ShipInformation(
+      lat: radians(27), long: radians(175), speed: 0, course: 0, time: 12)
 ];
 List<List<StarInformation>> star = [
   // [
@@ -134,7 +136,7 @@ List<List<StarInformation>> star = [
         gha: radians(90.83166666666),
         ho: radians(68.3283333333),
         time: 13.02416667)
-  ], //3
+  ], //1
   [
     StarInformation(
         dec: radians(21.885),
@@ -146,7 +148,7 @@ List<List<StarInformation>> star = [
         gha: radians(51.6683333333),
         ho: radians(87.713333333),
         time: 12.40361111)
-  ], //4
+  ], //2
   [
     StarInformation(
         dec: radians(45.181666666667),
@@ -163,7 +165,7 @@ List<List<StarInformation>> star = [
         gha: radians(360.0566666666),
         ho: radians(66.811666666),
         time: 6.267222222)
-  ], //5
+  ], //3
   [
     StarInformation(
         dec: radians(-20.098333333),
@@ -180,7 +182,7 @@ List<List<StarInformation>> star = [
         gha: radians(274.25),
         ho: radians(88.698333333),
         time: 12.46722222)
-  ], //6
+  ], //4
   [
     StarInformation(
         dec: radians(8.856666666),
@@ -390,6 +392,57 @@ List<List<StarInformation>> star = [
       gha: radians(210 + 25.3 / 60), // 210°25.3′
       ho: radians(42 + 17.0 / 60), // 42°17.0′
       time: 18 + 1.0 / 60 + 32.0 / 3600, // ZT 18-01-32 → 18.0255555556 h
+    ),
+  ],
+  [
+    // Alphecca
+    StarInformation(
+      dec: radians(26 + 37.9 / 60), // 26°37.9′ N
+      gha: radians(245 + 33.7 / 60), // 245°33.7′
+      ho: radians(34 + 12.0 / 60), // 34°12.0′
+      time: 12 + 0.0 / 60 + 0.0 / 3600, // ZT 12-00-00 → 12.0 h
+    ),
+    // Arcturus
+    StarInformation(
+      dec: radians(19 + 3.1 / 60), // 19°03.1′ N
+      gha: radians(265 + 18.0 / 60), // 265°18.0′
+      ho: radians(13 + 31.9 / 60), // 14°31.9′
+      time: 12 + 0.0 / 60 + 0.0 / 3600, // ZT 12-00-00 → 12.0 h
+    ),
+    // Vega
+    StarInformation(
+      dec: radians(-(16 + 8.9 / 60)), // 16°08.9′ S
+      gha: radians(256 + 26.0 / 60), // 256°26.0′
+      ho: radians(4 + 55.5 / 60), // 04°55.5′
+      time: 12 + 0.0 / 60 + 0.0 / 3600, // ZT 12-00-00 → 12.0 h
+    ),
+    // Shaula
+    StarInformation(
+      dec: radians(-(37 + 7.4 / 60)), // 37°07.4′ S
+      gha: radians(215 + 40.0 / 60), // 215°40.0′
+      ho: radians(17 + 38.3 / 60), // 17°38.3′
+      time: 12 + 0.0 / 60 + 0.0 / 3600, // ZT 12-00-00 → 12.0 h
+    ),
+    // Shaula
+    StarInformation(
+      dec: radians(-(29 + 29.0 / 60)), // 29°29.0′ S
+      gha: radians(134 + 44.3 / 60), // 134°44.3′
+      ho: radians(17 + 51.2 / 60), // 17°51.2′
+      time: 12 + 0.0 / 60 + 0.0 / 3600, // ZT 12-00-00 → 12.0 h
+    ),
+    // Diphda
+    StarInformation(
+      dec: radians(-(17 + 50.6 / 60)), // 17°50.6′ S
+      gha: radians(108 + 17.3 / 60), // 108°17.3′
+      ho: radians(6 + 17.0 / 60), // 06°17.0′
+      time: 12 + 0.0 / 60 + 0.0 / 3600, // ZT 12-00-00 → 12.0 h
+    ),
+    // Kochab
+    StarInformation(
+      dec: radians(74 + 3.3 / 60), // 74°03.3′ N
+      gha: radians(256 + 50.0 / 60), // 256°50.0′
+      ho: radians(30 + 14.4 / 60), // 30°14.4′
+      time: 12 + 0.0 / 60 + 0.0 / 3600, // ZT 12-00-00 → 12.0 h
     ),
   ]
 ];
