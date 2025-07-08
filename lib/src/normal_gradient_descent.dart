@@ -264,7 +264,7 @@ class GradientDescent {
   Position gradientDescent() {
     ShipInformation ap = initPosition.clone();
     int maxIteration = 10000;
-    double threshold = 1e-3; // 你的收斂門檻
+
     List<List<StarInformation>> batches;
     bool converged = false;
     currentIteration = 0;
