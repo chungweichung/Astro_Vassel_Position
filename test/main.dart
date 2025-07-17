@@ -140,6 +140,7 @@ void recordIterationHistory(
       star: star[question],
       batchSize: batchSize,
       learningRate: 0.01,
+      threshold: 1e-10,
       needRFix: true);
   Position ans;
   if (gdType == GDType.momentum) {
@@ -181,70 +182,81 @@ void main() {
   //   compareDiffGD(dr[i], star[i], star[i].length, 0.01);
   // }
 
-  //createConvergeSituation();
+  // createConvergeSituation();
 
   // recordIterationHistory(
-  //     ShipInformation(
-  //         lat: radians(-50),
-  //         long: radians(-50.5),
-  //         speed: dr[8].speed,
-  //         course: dr[8].course,
-  //         time: dr[8].time),
-  //     8,
+  //     // ShipInformation(
+  //     //     lat: radians(-40),
+  //     //     long: radians(-160),
+  //     //     speed: dr[7].speed,
+  //     //     course: dr[7].course,
+  //     //     time: dr[7].time),
+  //     dr[7],
+  //     7,
   //     2,
   //     GDType.GD);
 
-  // GradientDescent gd = GradientDescent(
-  //     initPosition: dr[10],
-  //     star: star[10],
-  //     batchSize: star[10].length,
-  //     learningRate: 0.01,
-  //     needRFix: true);
-  // Position ans = gd.gradientDescent();
-  // List<StarInformation> starOffset =
-  //     gd.runningFix(initPosition: dr[9], star: star[9], time: dr[9].time);
-  // print(lossFunction(ans, starOffset));
+  GradientDescent gd = GradientDescent(
+      initPosition: ShipInformation(
+          lat: radians(-70),
+          long: radians(-175),
+          speed: dr[2].speed,
+          course: dr[2].course,
+          time: dr[2].time),
+      star: star[2],
+      batchSize: star[2].length,
+      learningRate: 0.01,
+      threshold: 1e-10,
+      needRFix: true);
+  Position ans = gd.gradientDescent();
+  print("lat:${degrees(ans.lat).toInt()}°${degrees(ans.lat).abs() % 1 * 60}'");
+  print(
+      "long:${degrees(ans.long).toInt()}°${degrees(ans.long).abs() % 1 * 60}'");
+  print("iter:${gd.currentIteration}");
+  List<StarInformation> starOffset =
+      gd.runningFix(initPosition: dr[2], star: star[2], time: dr[2].time);
+  print(lossFunction(ans, gd.star));
 
   // Position psoAns =
   //     Position(radians(44 + 49.46458 / 60), radians(-30 - 15.48982 / 60));
   // print(lossFunction(psoAns, starOffset));
 
-  print('5start');
-  GradientDescent gd = GradientDescent(
-      initPosition: dr[4],
-      star: star[4],
-      batchSize: star[4].length,
-      learningRate: 0.01,
-      threshold: 1e-14,
-      needRFix: true);
-  Position ansTotal = gd.gradientDescent();
-  print(
-      "lat:${degrees(ansTotal.lat).toInt()}°${degrees(ansTotal.lat).abs() % 1 * 60}'");
-  print(
-      "long:${degrees(ansTotal.long).toInt()}°${degrees(ansTotal.long).abs() % 1 * 60}'");
-  print('[${ansTotal.long},${ansTotal.lat}]');
-  print(
-      "${-degrees(ansTotal.long).toInt()}°${(degrees(ansTotal.long) % -1 * 60)}'W");
-  print(degrees(ansTotal.long) % -1);
-  // MutiBodiesCeletialFix gdEach = MutiBodiesCeletialFix(
-  //     initPosition: dr[11], star: star[11], learningRate: 0.01, needRFix: true);
-  // List<Position> ans = gdEach.solveEachPosition();
+  // print('5start');
+  // GradientDescent gd = GradientDescent(
+  //     initPosition: dr[4],
+  //     star: star[4],
+  //     batchSize: star[4].length,
+  //     learningRate: 0.01,
+  //     threshold: 1e-14,
+  //     needRFix: true);
+  // Position ansTotal = gd.gradientDescent();
+  // print(
+  //     "lat:${degrees(ansTotal.lat).toInt()}°${degrees(ansTotal.lat).abs() % 1 * 60}'");
+  // print(
+  //     "long:${degrees(ansTotal.long).toInt()}°${degrees(ansTotal.long).abs() % 1 * 60}'");
+  // print('[${ansTotal.long},${ansTotal.lat}]');
+  // print(
+  //     "${-degrees(ansTotal.long).toInt()}°${(degrees(ansTotal.long) % -1 * 60)}'W");
+  // print(degrees(ansTotal.long) % -1);
+  // // MutiBodiesCeletialFix gdEach = MutiBodiesCeletialFix(
+  // //     initPosition: dr[11], star: star[11], learningRate: 0.01, needRFix: true);
+  // // List<Position> ans = gdEach.solveEachPosition();
+  // // for (int i = 0; i < ans.length; i++) {
+  // //   stdout.write('[${ans[i].long},${ans[i].lat}],');
+  // // }
+  // print('end');
+
+  // MutiBodiesCeletialFix multiGd = MutiBodiesCeletialFix(
+  //     initPosition: dr[4], star: star[4], learningRate: 0.01, needRFix: true);
+  // List<Position> ans = multiGd.solveEachPosition();
   // for (int i = 0; i < ans.length; i++) {
   //   stdout.write('[${ans[i].long},${ans[i].lat}],');
+  //   print(
+  //       "lat:${degrees(ans[i].lat).toInt()}°${degrees(ans[i].lat).abs() % 1 * 60}'");
+  //   print(
+  //       "long:${degrees(ans[i].long).toInt()}°${degrees(ans[i].long).abs() % 1 * 60}'");
   // }
-  print('end');
-
-  MutiBodiesCeletialFix multiGd = MutiBodiesCeletialFix(
-      initPosition: dr[4], star: star[4], learningRate: 0.01, needRFix: true);
-  List<Position> ans = multiGd.solveEachPosition();
-  for (int i = 0; i < ans.length; i++) {
-    stdout.write('[${ans[i].long},${ans[i].lat}],');
-    print(
-        "lat:${degrees(ans[i].lat).toInt()}°${degrees(ans[i].lat).abs() % 1 * 60}'");
-    print(
-        "long:${degrees(ans[i].long).toInt()}°${degrees(ans[i].long).abs() % 1 * 60}'");
-  }
-  print('');
+  // print('');
   // GradientDescent gd = GradientDescent(
   //     initPosition: dr[4],
   //     star: star[4],
@@ -281,7 +293,7 @@ void main() {
 double lossFunction(Position position, List<StarInformation> star) {
   double sum = 0;
   for (final star in star) {
-    final diff = sin(star.ho) - (hc(position, star));
+    final diff = star.ho - asin(hc(position, star));
     sum += diff * diff;
     //print(sum);
   }

@@ -25,6 +25,15 @@ class GradientDescent {
     this.runningFixTiem,
   });
 
+  Position normalize(double lat, double long) {
+    double x = cos(lat) * cos(long);
+    double y = cos(lat) * sin(long);
+    double z = sin(lat);
+    double norm_lat = asin(z);
+    double norm_long = atan2(y, x);
+    return Position(norm_lat, norm_long);
+  }
+
   double hc(Position position, StarInformation star) {
     return sin(position.lat) * sin(star.dec) +
         cos(position.lat) * cos(star.dec) * cos(star.gha + position.long);
@@ -264,7 +273,7 @@ class GradientDescent {
   Position gradientDescent() {
     ShipInformation ap = initPosition.clone();
     int maxIteration = 10000;
-
+    // 你的收斂門檻
     List<List<StarInformation>> batches;
     bool converged = false;
     currentIteration = 0;
@@ -305,8 +314,8 @@ class GradientDescent {
       if (converged) break; // 跳出 epoch 迴圈
       currentIteration++;
     }
-
-    return Position(ap.lat, ap.long);
+    Position normPosition = normalize(ap.lat, ap.long);
+    return Position(normPosition.lat, normPosition.long);
   }
 
   Position momentum() {
@@ -368,7 +377,7 @@ class GradientDescent {
     List<List<StarInformation>> batch;
     double beta1 = 0.9;
     double beta2 = 0.999;
-    double epsilon = 1e-8;
+    double epsilon = 1e-10;
     if (needRFix == true) {
       star = runningFix(
           initPosition: ap,
