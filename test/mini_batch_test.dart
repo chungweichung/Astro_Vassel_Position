@@ -33,7 +33,7 @@ void main() {
       GradientDescent gd = GradientDescent(
           initPosition: dr.last,
           star: star.last,
-          batchSize: star.length,
+          batchSize: star.last.length,
           threshold: 1e-13);
       Position ans = gd.gradientDescent();
       fullToCorrected = degrees(ans
@@ -48,10 +48,10 @@ void main() {
       //print(miniToCorrected - fullToCorrected);
     }
     total /= 1000;
-    print(total);
-    print(countminiWin);
-    print(fullToCorrected);
+    // print(total);
+    // print(countminiWin);
+    // print(fullToCorrected);
     miniBatchWinFile.writeln(
-        '${batchSize} ${totalMiniToCorrected / 1000} $total  ${countminiWin / 1000}');
+        '${batchSize} ${totalMiniToCorrected / 1000} $total  ${countminiWin / 100}');
   }
 }

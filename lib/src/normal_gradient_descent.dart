@@ -15,6 +15,8 @@ class GradientDescent {
   List<List<double>> historyGradient = [];
   List gra = [0, 0];
   double threshold;
+  late final Map<StarInformation, double> sampleWeight;
+
   GradientDescent({
     required this.initPosition,
     required this.star,
@@ -23,8 +25,12 @@ class GradientDescent {
     this.threshold = 1e-16,
     this.needRFix = false,
     this.runningFixTiem,
-  });
-
+  }) {
+    // 在建構子裡才根據 star 初始化
+    sampleWeight = {
+      for (var s in star) s: 1.0,
+    };
+  }
   Position normalize(double lat, double long) {
     double x = cos(lat) * cos(long);
     double y = cos(lat) * sin(long);
@@ -238,38 +244,6 @@ class GradientDescent {
     return batches;
   }
 
-  // Position gradientDescent() {
-  //   ShipInformation ap = initPosition.clone();
-  //   int maxIteration = 10000;
-  //   gra = [0, 0];
-  //   List<List<StarInformation>> batch;
-  //   if (needRFix == true) {
-  //     star = runningFix(
-  //         initPosition: ap,
-  //         star: star,
-  //         time: runningFixTiem ?? initPosition.time);
-  //   }
-  //   currentIteration = 0;
-
-  //   while (currentIteration < maxIteration) {
-  //     batch = creatBatch(star, batchSize);
-  //     for (int j = 0; j < batch.length; j++) {
-  //       gra = gradient(ap, batch[j]);
-  //       ap.lat -= learningRate * gra[0];
-  //       ap.long -= learningRate * gra[1];
-  //       historyPosition.add(ap.clone());
-  //       historyGradient.add([gra[0], gra[1]]);
-  //     }
-  //     gra = gradient(ap, star);
-  //     if (sqrt(pow(gra[0], 2) + pow(gra[1], 2)) < threshold) {
-  //       print('gra==0,$currentIteration');
-  //       break;
-  //     }
-  //     currentIteration++;
-  //   }
-
-  //   return Position(ap.lat, ap.long);
-  // }
   Position gradientDescent() {
     ShipInformation ap = initPosition.clone();
     int maxIteration = 10000;
@@ -317,6 +291,155 @@ class GradientDescent {
     Position normPosition = normalize(ap.lat, ap.long);
     return Position(normPosition.lat, normPosition.long);
   }
+
+  // Position gradientDescent() {
+  //   ShipInformation ap = initPosition.clone();
+  //   int maxIteration = 10000;
+  //   bool converged = false;
+  //   currentIteration = 0;
+  //   bool useMini = true; // mini／full 交替開關
+
+  //   if (needRFix) {
+  //     star = runningFix(
+  //       initPosition: ap,
+  //       star: star,
+  //       time: runningFixTiem ?? initPosition.time,
+  //     );
+  //   }
+
+  //   while (currentIteration < maxIteration && !converged) {
+  //     if (useMini) {
+  //       // 一次 mini‑batch
+  //       var batches = creatBatch(star, batchSize);
+  //       for (var batch in batches) {
+  //         var grad = gradient(ap, batch);
+  //         ap.lat -= learningRate * grad[0];
+  //         ap.long -= learningRate * grad[1];
+  //         historyPosition.add(ap.clone());
+  //         historyGradient.add([grad[0], grad[1]]);
+
+  //         double norm = sqrt(grad[0] * grad[0] + grad[1] * grad[1]);
+  //         if (norm < threshold) {
+  //           converged = true;
+  //           break;
+  //         }
+  //       }
+  //     } else {
+  //       // 一次 full‑batch
+  //       var grad = gradient(ap, star);
+  //       ap.lat -= learningRate * grad[0];
+  //       ap.long -= learningRate * grad[1];
+  //       historyPosition.add(ap.clone());
+  //       historyGradient.add([grad[0], grad[1]]);
+
+  //       double norm = sqrt(grad[0] * grad[0] + grad[1] * grad[1]);
+  //       if (norm < threshold) {
+  //         converged = true;
+  //       }
+  //     }
+
+  //     if (converged) break;
+  //     useMini = !useMini; // 切換下一輪模式
+  //     currentIteration++;
+  //   }
+
+  //   Position normPosition = normalize(ap.lat, ap.long);
+  //   return Position(normPosition.lat, normPosition.long);
+  // }
+
+  // double _sampleScore(Position ap, StarInformation s) {
+  //   return lossFunction(ap, [s]);
+  // }
+
+  // /// 新的 batch 抽樣：主要樣本 (90%) + 離群樣本 (10%)，最多 1 個
+  // List<List<StarInformation>> _creatBatchRobust(Position ap) {
+  //   final n = star.length;
+  //   // full batch 退回全量
+  //   if (batchSize >= n) {
+  //     return [star.toList()];
+  //   }
+
+  //   // 1. 計算每個樣本分數
+  //   final scores = <double>[];
+  //   for (var s in star) {
+  //     scores.add(_sampleScore(ap, s));
+  //   }
+
+  //   // 2. 根據分數排序索引，分成 main 與 outlier
+  //   final indices = List<int>.generate(n, (i) => i);
+  //   indices.sort((a, b) => scores[a].compareTo(scores[b]));
+  //   int outlierCount = (0.10 * n).floor(); // 最後10%當離群
+  //   final mainIdx = indices.sublist(0, n - outlierCount);
+  //   final outlierIdx = indices.sublist(n - outlierCount);
+
+  //   // 3. 對剩下的所有樣本組 batch
+  //   final rnd = Random();
+  //   int numBatches = (n + batchSize - 1) ~/ batchSize;
+  //   final batches = <List<StarInformation>>[];
+
+  //   for (int b = 0; b < numBatches; b++) {
+  //     // 從 mainIdx 隨機抽 batchSize-1
+  //     final batch = <StarInformation>[];
+  //     for (int i = 0; i < batchSize - 1; i++) {
+  //       int pick = mainIdx[rnd.nextInt(mainIdx.length)];
+  //       batch.add(star[pick]);
+  //     }
+  //     // 再從 outlierIdx 隨機抽 1 個（保證每批次都有離群樣本，但只佔極少數）
+  //     if (outlierIdx.isNotEmpty) {
+  //       int pick = outlierIdx[rnd.nextInt(outlierIdx.length)];
+  //       batch.add(star[pick]);
+  //     }
+  //     batches.add(batch);
+  //   }
+
+  //   return batches;
+  // }
+
+  // Position gradientDescent() {
+  //   ShipInformation ap = initPosition.clone();
+  //   bool converged = false;
+  //   currentIteration = 0;
+
+  //   if (needRFix) {
+  //     star = runningFix(
+  //       initPosition: ap,
+  //       star: star,
+  //       time: runningFixTiem ?? initPosition.time,
+  //     );
+  //   }
+
+  //   while (currentIteration < 10000 && !converged) {
+  //     // ←—— 改這一行，改用新的 robust 抽樣 ——→
+  //     final batches = _creatBatchRobust(ap);
+
+  //     for (var batch in batches) {
+  //       // 計算 mini-batch 梯度
+  //       var grad = gradient(ap, batch);
+
+  //       // 更新
+  //       ap.lat -= learningRate * grad[0];
+  //       ap.long -= learningRate * grad[1];
+
+  //       // 記錄
+  //       historyPosition.add(ap.clone());
+  //       historyGradient.add([grad[0], grad[1]]);
+
+  //       // 收斂判斷
+  //       double norm = sqrt(grad[0] * grad[0] + grad[1] * grad[1]);
+  //       if (norm < threshold) {
+  //         converged = true;
+  //         break;
+  //       }
+  //     }
+
+  //     if (converged) break;
+  //     currentIteration++;
+  //   }
+
+  //   // 最後 normalize
+  //   Position normPosition = normalize(ap.lat, ap.long);
+  //   return Position(normPosition.lat, normPosition.long);
+  // }
 
   Position momentum() {
     ShipInformation ap = initPosition.clone();

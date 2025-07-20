@@ -409,7 +409,7 @@ List<List<StarInformation>> star = [
     StarInformation(
       dec: radians(19 + 3.1 / 60), // 19°03.1′ N
       gha: radians(265 + 18.0 / 60), // 265°18.0′
-      ho: radians(13 + 31.9 / 60), // 14°31.9′
+      ho: radians(14 + 31.9 / 60), // 14°31.9′
       time: 12 + 0.0 / 60 + 0.0 / 3600, // ZT 12-00-00 → 12.0 h
     ),
     // Vega
